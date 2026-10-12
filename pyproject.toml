@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "odoo_api_wrapper"
-version = "0.1.0.a2"
+version = "0.1.0.a3"
 authors = [
     {name = "Pável Hernández Reza", email = "phr2807@gmail.com" }]
 description = "Odoo API Wrapper"

@@ -5,16 +5,18 @@ from typing import Literal
 from typing import Optional
 from typing import Sequence
 from ._config import CONFIG
-from ._typing import CriteriaStructure
+from ._typing import CriteriaStructure as _CriteriaStructure
 from ._typing import Many2One
 from ._typing import MatchingStringOperator
-from ._typing import ModelName
+from ._typing import ModelName as _ModelName
 from ._typing import ScalarOrSequence
 from ._typing import _M
 from ._typing import JSONParams
 from ._utils import to_list
 
 class OdooAPIWrapper(Generic[_M]):
+    type ModelName = _ModelName[_M]
+    type CriteriaStructure = _CriteriaStructure
     _HEADERS = {
         'Authorization': f'bearer {CONFIG.API_KEY}',
         'X-Odoo-Database': CONFIG.DATABASE,
@@ -23,7 +25,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def create(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         vals_list: ScalarOrSequence[dict],
     ) -> list[int]:
 
@@ -40,8 +42,8 @@ class OdooAPIWrapper(Generic[_M]):
 
     def search(
         self,
-        model_name: ModelName[_M],
-        search_criteria: CriteriaStructure = [],
+        model_name: _ModelName[_M],
+        search_criteria: _CriteriaStructure = [],
         offset: Optional[int] = None,
         limit: Optional[int] = None,
     ) -> list[int]:
@@ -58,8 +60,8 @@ class OdooAPIWrapper(Generic[_M]):
 
     def search_count(
         self,
-        model_name: ModelName[_M],
-        search_criteria: CriteriaStructure = [],
+        model_name: _ModelName[_M],
+        search_criteria: _CriteriaStructure = [],
     ) -> int:
 
         return self._post(
@@ -72,9 +74,9 @@ class OdooAPIWrapper(Generic[_M]):
 
     def name_search(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         name: str,
-        search_criteria: CriteriaStructure = [],
+        search_criteria: _CriteriaStructure = [],
         limit: Optional[int] = None,
         operator: Optional[MatchingStringOperator] = 'ilike',
     ) -> list[Many2One]:
@@ -92,7 +94,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def read(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         ids: ScalarOrSequence[int],
         fields: list[str] = [],
     ) -> None:
@@ -111,8 +113,8 @@ class OdooAPIWrapper(Generic[_M]):
 
     def search_read(
         self,
-        model_name: ModelName[_M],
-        search_criteria: CriteriaStructure = [],
+        model_name: _ModelName[_M],
+        search_criteria: _CriteriaStructure = [],
         fields: Sequence[str] = [],
         order: Optional[str] = None,
         offset: Optional[int] = None,
@@ -133,7 +135,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def write(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         ids: ScalarOrSequence[int],
         vals: dict,
     ) -> Literal[True]:
@@ -152,7 +154,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def unlink(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         ids: ScalarOrSequence[int],
     ) -> Literal[True]:
 
@@ -169,7 +171,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def action_archive(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         ids: ScalarOrSequence[int],
     ) -> None:
 
@@ -183,7 +185,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def action_unarchive(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         ids: ScalarOrSequence[int],
     ) -> None:
 
@@ -197,7 +199,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def get_external_id(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         ids: str,
     ) -> dict[str, str]:
 
@@ -214,7 +216,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def executed_method(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         method: str,
         kwargs: dict[str, Any],
     ) -> Any:
@@ -227,7 +229,7 @@ class OdooAPIWrapper(Generic[_M]):
 
     def _post(
         self,
-        model_name: ModelName[_M],
+        model_name: _ModelName[_M],
         method: str,
         json: JSONParams,
     ) -> Any:
