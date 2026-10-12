@@ -1,3 +1,3 @@
 ```bash
-pip install git+https://github.com/onnymm/lylac.git
+pip install git+https://github.com/onnymm/odoo_api_wrapper.git
 ```
